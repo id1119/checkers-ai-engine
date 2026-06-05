@@ -1,0 +1,260 @@
+
+
+===== PAGE 1 =====
+Algoritmiistrukturepodataka2025/2026Projekat1
+
+
+===== PAGE 2 =====
+•OdigrajtenekolikopartijaigreDame•Pokušajteda razvijete/otkrijetedobretaktike
+Na	početku…
+
+
+===== PAGE 3 =====
+•Posebnapolja•Modifikatori•Sistemrelikvija•Istorijaodigranihpoteza
+Našamodifikacija–Junačkimegdan
+
+
+===== PAGE 4 =====
+Ali	prvoosnove...
+
+
+===== PAGE 5 =====
+•Stanje(table) predstavljatrenutnibroj, rasporedivrstefiguranatabli•Potrebnoje definisatistrukturupodatakakojaopisujetrenutnostanje•Kojestrukturebi to moglebiti?
+Stanjeimodelovanjestanja
+
+
+===== PAGE 6 =====
+•Izsvakogstanjase možeodigratinekolikopoteza•Odigravanjempoteza, prelazise u drugostanjetable
+Prelazaku	sledećestanje1/2
+
+
+
+===== PAGE 7 =====
+•Nisusviprelazijednakopovoljnizaigrača•Potrebnoje odabratinajboljiod mogućihprelaza•Stanjesasledećimmogućimstanjimaformirastabloigre•Kakoutvrditikoji od sledećihpotezaje najbolji?
+Prelazaku	sledećestanje2/2
+
+
+===== PAGE 8 =====
+•Da li suova stanjadobra zabelogigrača?Heuristika1/3
+
+
+
+===== PAGE 9 =====
+•Heuristikaje funkcijakojaodređujekvalitetstanja•Transformišestanjetable u broj•Štoje brojveći, stanjeje poželjnije
+Heuristika2/3
+
+
+===== PAGE 10 =====
+•Štamožemouključitiu heuristiku?•Brojnašihfigura•Brojprotivničkihfigura•Brojnašihjunaka/dama•Brojprotivničkihjunaka/dama•Brojfigurau uglovima(ne mogubitipojedene)•Brojfigurado ivice(ne mogubitipojedene)•…
+Heuristika3/3
+
+
+===== PAGE 11 =====
+•2igrača–svakiželidapobedi(postigneštoboljirezultat),adapritomprotivnikizgubi,odnosnopostignenajgorimogućirezultat•Stanjekojejedobrozajednogigrača,obaveznojelošezaprotivnika•Jedanigrač–maximizer•Drugiigrač-minimizer
+Minimax	algoritam
+
+
+===== PAGE 12 =====
+Minimax	algoritam
+4117 31251
+Maximizer
+Minimizer
+
+
+===== PAGE 13 =====
+Minimax	algoritam
+4117 31251
+Maximizer
+Minimizer
+Minimizer biramanjuvrednost
+4
+
+
+===== PAGE 14 =====
+Minimax	algoritam
+4117 31251
+Maximizer
+Minimizer
+Minimizer biramanjuvrednost
+47 
+
+
+===== PAGE 15 =====
+Minimax	algoritam
+4117 31251
+Maximizer
+Minimizer
+Minimizer biramanjuvrednost
+47 1
+
+
+===== PAGE 16 =====
+Minimax	algoritam
+4117 31251
+Maximizer
+Minimizer
+Maximizer biranavećuvrednostod mogućih47 1
+7 
+
+
+===== PAGE 17 =====
+Minimax	algoritamsaalfa-beta	rezovima•Nadogradnjaminimax algoritma•Nekeputanjemožemopreskočiti–ubrzanje•Uvodese dvekonstante–alfa ibeta
+
+
+===== PAGE 18 =====
+Minimax	algoritamsaalfa-beta	rezovima
+4117 31251
+Maximizer
+Minimizer<= 4??
+>= 4 
+
+
+===== PAGE 19 =====
+Minimax	algoritamsaalfa-beta	rezovima
+4117 31251
+Maximizer
+Minimizer<= 4??
+>= 4 
+
+
+===== PAGE 20 =====
+Minimax	algoritamsaalfa-beta	rezovima
+4117 31251
+Maximizer
+Minimizer<= 4= 7?
+>= 7 
+
+
+===== PAGE 21 =====
+Minimax	algoritamsaalfa-beta	rezovima
+4117 31251
+Maximizer
+Minimizer<= 4= 7<=3
+>= 7 
+Minimizer nikadnećeodabrativrednostvećuod 3
+Nemapotrebeda se daljeistražujedesnagrana -rez
+Uštedelismoispitivanjeipristupčvorovima12, 5 i1
+
+
+===== PAGE 22 =====
+A	sad	malo	detaljniji	prikaz…	
+
+
+===== PAGE 23 =====
+Minimax	algoritamsaalfa-beta	rezovima
+4117 31251
+Maximizer
+MinimizerV = +infV = +infV = +inf
+V = -infVrednostialfa ibeta se prosleđujupotomkualfa = -infbeta = +inf
+alfa = -infbeta = +inf
+alfa –Najbolja nađena vrednost za    maximizer-a do korenabeta -Najbolja nađena vrednost za minimizer-a do korena
+
+
+===== PAGE 24 =====
+Minimax	algoritamsaalfa-beta	rezovima
+411 31251
+Maximizer
+MinimizerV = 4 V = +inf
+V = -infVrednostialfa ibeta se prosleđujupotomku
+Novopronađenavrednost4 se prosleđujeroditeljugdese poredisavrednošćuikonstantamaalfa ibeta
+Nova vrednostse poredisaalfa kodminimizer-aDa je manja, došlobi do odsecanjagrane7 
+V = +inf
+alfa = -infbeta = +inf
+alfa = -infbeta = +inf
+alfa –Najbolja nađena vrednost za    maximizer-a do korenabeta -Najbolja nađena vrednost za minimizer-a do korena
+
+
+===== PAGE 25 =====
+Minimax	algoritamsaalfa-beta	rezovima
+411 31251
+Maximizer
+MinimizerV = 4 V = +inf
+V = -infVrednost-inf se poredisa4, 4 je veće, pa postajenova vrednostza maximizer-a
+Alfa dobijanajvećuvrednostdo korena,Beta dobijanajmanjuvrednostdo korena
+7 
+V = +infalfa = -infbeta = 4Nova vrednostse poredisaalfa kodminimizer-a, 11 je većepa se ne uzimau obzir
+
+
+===== PAGE 26 =====
+Minimax	algoritamsaalfa-beta	rezovima
+411 31251
+Maximizer
+MinimizerV = 4 V = +inf
+V = 4Vrednostialfa ibeta se prosleđujupotomku
+Alfa dobijanajvećuvrednostdo korena,Beta dobijanajmanjuvrednostdo korena
+7 
+V = 7alfa = 4beta = +inf
+Vrednostu korenubi se poredilasanjemuprosleđenomvrednošćualfa, alipoštone postoji, ide se dalje
+alfa = 4beta = +inf
+Nova vrednostse poredisaalfa kodminimizer-aPoštoje veća, pristupalobi se daljimčvorovima
+
+
+===== PAGE 27 =====
+Minimax	algoritamsaalfa-beta	rezovima
+411 31251
+Maximizer
+MinimizerV = 4 V = +inf
+V = 7Vrednostialfa ibeta se prosleđujupotomku
+Alfa dobijanajvećuvrednostdo korena,Beta dobijanajmanjuvrednostdo korena
+7 
+V = 7
+Vrednostu korenubi se poredilasanjemuprosleđenomvrednošćualfa, alipoštone postoji, ide se dalje
+alfa = -infbeta = 7Donosise odlukada li trebada dođedo reza
+
+
+===== PAGE 28 =====
+Minimax	algoritamsaalfa-beta	rezovima
+411 31251
+Maximizer
+MinimizerV = 4 V = +inf
+V = 7Vrednostialfa ibeta se prosleđujupotomku
+Alfa dobijanajvećuvrednostdo korena,Beta dobijanajmanjuvrednostdo korena
+7 
+V = 7
+Nova vrednost7 je boljikandidatza vrednostmaximizer čvora. Poštonijevećeod beta nemaodsecanja. Korigujese alfa.
+
+
+===== PAGE 29 =====
+Minimax	algoritamsaalfa-beta	rezovima
+411 31251
+Maximizer
+MinimizerV = 4 V = 3
+V = 7Vrednostialfa ibeta se prosleđujupotomku
+Alfa dobijanajvećuvrednostdo korena,Beta dobijanajmanjuvrednostdo korena
+7 
+V = 7
+alfa = 7beta = +inf
+alfa = 7beta = +infNova vrednostse poredisaalfa kodminimizer-aPoštoje manja, možemoda preskočimoobilazakostalihčvorova-rez
+
+
+===== PAGE 30 =====
+•Štovećideostablaotkrijemo,boljemožemodaodaberemosledećipotez•Obilazakvećegdelastablazahtevavišeresursaiusporavaodlučivanje•Potrebnojeizbalansiratidubinupretragesavremenskimograničenjem-akonamjeostalojošvremena,započećemoistraživanjeisledećegnivoa•Postupaksezavršavaneposrednopredistekvremena
+Iterativnoprodubljivanje(iterative	deepening)
+
+
+===== PAGE 31 =====
+•Čuvamorezultatevaluacijestanjanatabli•Kadase opetnađemou istojpoziciji:•Dobavljamovećizračunatuvrednost•Izbegavamoponovnuevaluaciju•Štedimovreme
+Transpozicionatabela
+
+
+===== PAGE 32 =====
+•Korisnikmožeda izvedevišeuzastopnihuklanjanjaprotivničkefigure•Svauzastopnauklanjanjase smatrajujednimpotezom
+Višeuzastopnihuklanjanja
+
+
+===== PAGE 33 =====
+•Koristitin-arnostabloza čuvanjeistorijepoteza•Na krajumeča, omogućitireprodukcijuodigranihpotezauključujućiiponišteneputemUndo funkcije
+Undo	sistemireprodukcijapoteza
+
+
+===== PAGE 34 =====
+•Carevdrum je dekkapaciteta5 elemenatakoji sadržirelikvije•Kadafiguradođenaposebnopolje (brazdu):•Birajednuod dvedostupnerelikvijeizdeka (prveiliposlednje)•Aktiviraje za posebneprednosti
+Carevdrum,	relikvijeisposobnosti
+
+
+===== PAGE 35 =====
+Štautičenakvalitetodigranogpoteza?
+
+
+===== PAGE 36 =====
+Štautičenavremeodigravanjapoteza?
