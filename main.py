@@ -11,6 +11,11 @@ if __name__ == '__main__':
     board.starting_board(current_game.board)
 
     while True:
+        winner = current_game.get_winner()
+        if winner is not None:
+            print(f"Pobednik: {winner}")
+            break
+
         if skip_relic_add:
             skip_relic_add = False
         else:
@@ -20,7 +25,7 @@ if __name__ == '__main__':
         board.print_board(current_game.board)
         simple_moves, capture_moves = moves.legal_moves(current_game.board, current_game.turn)
         if not simple_moves and not capture_moves:
-            print("Nema legalnih poteza")
+            print(f"Nema legalnih poteza. Pobednik: {current_game.opponent_color()}")
             break
 
         selected_move = moves.choose_move(simple_moves, capture_moves)

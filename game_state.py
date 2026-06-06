@@ -13,8 +13,21 @@ class GameState:
     relic_road: object = field(default_factory=relic.create_relic_road)
     relic_cycle_index: int = 0
 
+    def opponent_color(self):
+        return "black" if self.turn == "white" else "white"
+
     def switch_turn(self):
-        self.turn = "black" if self.turn == "white" else "white"
+        self.turn = self.opponent_color()
+
+    def get_winner(self):
+        has_white_piece = any(piece is not None and piece.color == "white" for piece in self.board)
+        has_black_piece = any(piece is not None and piece.color == "black" for piece in self.board)
+
+        if not has_white_piece:
+            return "black"
+        if not has_black_piece:
+            return "white"
+        return None
 
     def is_draw(self):
         return self.draw_counter >= 40
