@@ -1,3 +1,5 @@
+import copy
+
 from dataclasses import dataclass
 from dataclasses import field
 
@@ -28,3 +30,11 @@ class GameState:
         elif side == "rear":
             return relic.take_rear_relic(self.relic_road)
         return None
+
+    def reduce_hesitation_for_current_player(self):
+        for piece in self.board:
+            if piece is not None and piece.color == self.turn and piece.hesitation_turns > 0:
+                piece.hesitation_turns -= 1
+
+    def copy(self):
+        return copy.deepcopy(self)

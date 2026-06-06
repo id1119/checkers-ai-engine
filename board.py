@@ -109,7 +109,13 @@ def print_board(board):
                     index = row_column_to_index(row, column)
                     piece = board[index]
 
-                    if piece is not None and piece.color == "white" and piece.kind == "pawn":
+                    if piece is not None and piece.is_marko() and piece.color == "white":
+                        text = f"♚{index:02}"
+                        text_color = "bright_white"
+                    elif piece is not None and piece.is_marko() and piece.color == "black":
+                        text = f"♚{index:02}"
+                        text_color = "black"
+                    elif piece is not None and piece.color == "white" and piece.kind == "pawn":
                         text = f"●{index:02}"
                         text_color = "bright_white"
                     elif piece is not None and piece.color == "black" and piece.kind == "pawn":
