@@ -1,10 +1,38 @@
+import ai
 import board
 import game_state
 import moves
 import relic
 
 
+def choose_game_mode():
+    print("Izaberi mod igre:")
+    print("1: Covek protiv coveka")
+    print("2: Covek protiv AI")
+
+    while True:
+        try:
+            selected_mode = int(input("Unesi mod igre: "))
+        except ValueError:
+            print("Unos mora biti broj.")
+            continue
+        except EOFError:
+            return None
+
+        if selected_mode == 1:
+            return "human_vs_human"
+        if selected_mode == 2:
+            return "human_vs_ai"
+
+        print("Izaberi 1 ili 2.")
+
+
 if __name__ == '__main__':
+    game_mode = choose_game_mode()
+    if game_mode is None:
+        print("Igra je prekinuta.")
+        raise SystemExit
+
     current_game = game_state.GameState([None] * 32)
     undo_stack = []
     skip_relic_add = False
@@ -28,19 +56,37 @@ if __name__ == '__main__':
             print(f"Nema legalnih poteza. Pobednik: {current_game.opponent_color()}")
             break
 
-        selected_move = moves.choose_move(simple_moves, capture_moves)
-        if selected_move is None:
-            print("Igra je prekinuta.")
-            break
+        is_ai_turn = game_mode == "human_vs_ai" and current_game.turn == "black"
+        if is_ai_turn:
+            selected_move, selected_relic_side = ai.choose_iterative_deepening_move(current_game)
+            if selected_move is None:
+                print("AI nema legalan potez.")
+                break
+            print(f"AI je odigrao potez: {selected_move}")
+        else:
+            selected_move = moves.choose_move(simple_moves, capture_moves)
+            selected_relic_side = None
+            if selected_move is None:
+                print("Igra je prekinuta.")
+                break
 
-        if selected_move == "undo":
-            if undo_stack:
-                current_game = undo_stack.pop()
-                print("Potez je ponisten.")
-            else:
-                print("Nema poteza za undo.")
-            skip_relic_add = True
-            continue
+            if selected_move == "undo":
+                undo_steps = 2 if game_mode == "human_vs_ai" else 1
+                undone_steps = 0
+
+                while undo_stack and undone_steps < undo_steps:
+                    current_game = undo_stack.pop()
+                    undone_steps += 1
+
+                if undone_steps == 0:
+                    print("Nema poteza za undo.")
+                elif undone_steps == 1:
+                    print("Potez je ponisten.")
+                else:
+                    print("Potezi su ponisteni.")
+
+                skip_relic_add = True
+                continue
 
         undo_stack.append(current_game.copy())
 
@@ -56,10 +102,14 @@ if __name__ == '__main__':
 
         destination_row, destination_column = board.index_to_row_column(destination_index)
         if (destination_row, destination_column) in board.BRAZDE:
-            relic_side = relic.choose_relic_side(current_game.relic_road)
-            if relic_side is None:
-                print("Aktivacija relikvije je prekinuta.")
-                break
+            if is_ai_turn:
+                relic_side = selected_relic_side
+                print(f"AI je izabrao relikviju sa strane: {relic_side}")
+            else:
+                relic_side = relic.choose_relic_side(current_game.relic_road)
+                if relic_side is None:
+                    print("Aktivacija relikvije je prekinuta.")
+                    break
 
             selected_relic = current_game.take_relic(relic_side)
             relic.apply_relic(current_game.board, destination_index, selected_relic)

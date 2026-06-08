@@ -4,10 +4,12 @@ import board
 import heuristic
 import moves
 import relic
+import zobrist
 
 
 RELIC_SIDES = ("front", "rear")
 DEFAULT_MOVE_TIME_LIMIT = 3
+TRANSPOSITION_TABLE = {}
 
 
 def choose_best_move(current_game):
@@ -229,6 +231,11 @@ def alpha_beta_with_deadline(current_game, depth, player_color, alpha, beta, dea
     if time.monotonic() >= deadline:
         return 0, False
 
+    position_hash = zobrist.hash_game_state(current_game)
+    table_key = (position_hash, depth, player_color)
+    if table_key in TRANSPOSITION_TABLE:
+        return TRANSPOSITION_TABLE[table_key], True
+
     if current_game.is_draw():
         return 0, True
 
@@ -239,7 +246,9 @@ def alpha_beta_with_deadline(current_game, depth, player_color, alpha, beta, dea
         return -heuristic.TERMINAL_WIN_VALUE, True
 
     if depth == 0:
-        return heuristic.evaluate_game_state(current_game, player_color), True
+        score = heuristic.evaluate_game_state(current_game, player_color)
+        TRANSPOSITION_TABLE[table_key] = score
+        return score, True
 
     next_states = generate_next_states(current_game)
     if not next_states:
@@ -249,6 +258,7 @@ def alpha_beta_with_deadline(current_game, depth, player_color, alpha, beta, dea
 
     if current_game.turn == player_color:
         best_score = float("-inf")
+        searched_all_children = True
 
         for next_game, selected_move, relic_side in next_states:
             score, completed = alpha_beta_with_deadline(
@@ -267,11 +277,15 @@ def alpha_beta_with_deadline(current_game, depth, player_color, alpha, beta, dea
             alpha = max(alpha, best_score)
 
             if beta <= alpha:
+                searched_all_children = False
                 break
 
+        if searched_all_children:
+            TRANSPOSITION_TABLE[table_key] = best_score
         return best_score, True
 
     best_score = float("inf")
+    searched_all_children = True
 
     for next_game, selected_move, relic_side in next_states:
         score, completed = alpha_beta_with_deadline(
@@ -290,8 +304,11 @@ def alpha_beta_with_deadline(current_game, depth, player_color, alpha, beta, dea
         beta = min(beta, best_score)
 
         if beta <= alpha:
+            searched_all_children = False
             break
 
+    if searched_all_children:
+        TRANSPOSITION_TABLE[table_key] = best_score
     return best_score, True
 
 
