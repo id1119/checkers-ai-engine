@@ -101,16 +101,18 @@ if __name__ == '__main__':
                 continue
 
         undo_stack.append(current_game.copy())
+        piece_count_before_move = current_game.count_pieces()
 
         if capture_moves:
             was_promoted, destination_index = moves.apply_capture_move(current_game.board, selected_move)
-            current_game.draw_counter = 0
         elif simple_moves:
             was_promoted, destination_index = moves.apply_simple_move(current_game.board, selected_move)
-            if was_promoted:
-                current_game.draw_counter = 0
-            else:
-                current_game.draw_counter += 1
+
+        piece_count_after_move = current_game.count_pieces()
+        if was_promoted or piece_count_after_move != piece_count_before_move:
+            current_game.draw_counter = 0
+        else:
+            current_game.draw_counter += 1
 
         selected_relic = None
         relic_side = None
@@ -134,6 +136,7 @@ if __name__ == '__main__':
             break
 
         current_game.reduce_hesitation_for_current_player()
+        current_game.reduce_armor_for_opponent_pieces()
         current_game.switch_turn()
         current_history_node = current_history_node.add_child(
             current_game.copy(),

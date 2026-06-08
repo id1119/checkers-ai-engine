@@ -321,6 +321,7 @@ def generate_next_states(current_game):
 
         for simulated_game, relic_side in possible_outcomes:
             simulated_game.reduce_hesitation_for_current_player()
+            simulated_game.reduce_armor_for_opponent_pieces()
             simulated_game.switch_turn()
             next_states.append((simulated_game, selected_move, relic_side))
 
@@ -337,13 +338,15 @@ def get_available_moves(game_board, turn):
 
 def simulate_move_outcomes(current_game, selected_move, is_capture_move):
     simulated_game = current_game.copy()
+    piece_count_before_move = simulated_game.count_pieces()
     was_promoted, destination_index = apply_move_on_simulation(
         simulated_game,
         selected_move,
         is_capture_move,
     )
 
-    if is_capture_move or was_promoted:
+    piece_count_after_move = simulated_game.count_pieces()
+    if was_promoted or piece_count_after_move != piece_count_before_move:
         simulated_game.draw_counter = 0
     else:
         simulated_game.draw_counter += 1

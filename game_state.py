@@ -32,6 +32,14 @@ class GameState:
     def is_draw(self):
         return self.draw_counter >= 40
 
+    def count_pieces(self):
+        return sum(piece is not None for piece in self.board)
+
+    def reduce_armor_for_opponent_pieces(self):
+        for piece in self.board:
+            if piece is not None and piece.color != self.turn and piece.armor_turns > 0:
+                piece.armor_turns -= 1
+
     def add_relic_for_turn(self):
         new_relic, self.relic_cycle_index = relic.next_relic(self.relic_cycle_index)
         relic.add_relic_to_front(self.relic_road, new_relic)
