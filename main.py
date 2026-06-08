@@ -1,8 +1,15 @@
 import ai
 import board
 import game_state
+import history
 import moves
 import relic
+
+
+def get_move_destinations(simple_moves, capture_moves):
+    if capture_moves:
+        return {capture_move[0][-1] for capture_move in capture_moves}
+    return {simple_move[-1] for simple_move in simple_moves}
 
 
 def choose_game_mode():
@@ -37,6 +44,8 @@ if __name__ == '__main__':
     undo_stack = []
     skip_relic_add = False
     board.starting_board(current_game.board)
+    history_root = history.HistoryNode(current_game.copy())
+    current_history_node = history_root
 
     while True:
         winner = current_game.get_winner()
@@ -50,8 +59,9 @@ if __name__ == '__main__':
             new_relic = current_game.add_relic_for_turn()
             print(f"Nova relikvija na Carevom drumu: {new_relic}")
 
-        board.print_board(current_game.board)
         simple_moves, capture_moves = moves.legal_moves(current_game.board, current_game.turn)
+        highlighted_indexes = get_move_destinations(simple_moves, capture_moves)
+        board.print_board(current_game.board, highlighted_indexes)
         if not simple_moves and not capture_moves:
             print(f"Nema legalnih poteza. Pobednik: {current_game.opponent_color()}")
             break
@@ -76,6 +86,8 @@ if __name__ == '__main__':
 
                 while undo_stack and undone_steps < undo_steps:
                     current_game = undo_stack.pop()
+                    if current_history_node.parent is not None:
+                        current_history_node = current_history_node.parent
                     undone_steps += 1
 
                 if undone_steps == 0:
@@ -100,6 +112,8 @@ if __name__ == '__main__':
             else:
                 current_game.draw_counter += 1
 
+        selected_relic = None
+        relic_side = None
         destination_row, destination_column = board.index_to_row_column(destination_index)
         if (destination_row, destination_column) in board.BRAZDE:
             if is_ai_turn:
@@ -121,3 +135,12 @@ if __name__ == '__main__':
 
         current_game.reduce_hesitation_for_current_player()
         current_game.switch_turn()
+        current_history_node = current_history_node.add_child(
+            current_game.copy(),
+            selected_move,
+            relic_side,
+            selected_relic,
+        )
+
+    if history.choose_replay_history():
+        history.replay_history(history_root)

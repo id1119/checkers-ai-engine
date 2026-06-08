@@ -393,6 +393,7 @@ def legal_moves(game_board, turn):
 
     return simple_moves,capture_moves
 
+
 def should_promote_move(piece, destination_index):
     row, column = board.index_to_row_column(destination_index)
     return (
@@ -404,12 +405,12 @@ def should_promote_move(piece, destination_index):
     )
 
 
-
 def promote_piece(piece, destination_index):
     if should_promote_move(piece, destination_index):
         piece.promote()
 
     return piece
+
 
 def apply_simple_move(game_board, move):
     start_index, destination_index = move[0], move[-1]
@@ -420,6 +421,7 @@ def apply_simple_move(game_board, move):
     game_board[destination_index] = promote_piece(piece, destination_index)
 
     return was_promoted, destination_index
+
 
 def apply_capture_move(game_board, capture_move):
     path, captured_pieces = capture_move
@@ -437,6 +439,7 @@ def apply_capture_move(game_board, capture_move):
     game_board[destination_index] = promote_piece(piece, destination_index)
 
     return was_promoted, destination_index
+
 
 def choose_move(simple_moves, capture_moves):
     if capture_moves:

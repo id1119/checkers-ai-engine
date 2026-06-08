@@ -77,7 +77,40 @@ def print_square(text, background_color, text_color="black"):
     console.print(text, style=f"{text_color} on {background_color}", end="")
 
 
-def print_board(board):
+def get_piece_markers(piece):
+    markers = ""
+
+    if piece is None:
+        return markers
+
+    if piece.armor_turns > 0:
+        markers += "O"
+    if piece.hesitation_turns > 0:
+        markers += "H"
+    if piece.has_topuz:
+        markers += "T"
+    if piece.has_sarac:
+        markers += "S"
+    if piece.has_blessing:
+        markers += "B"
+    if piece.has_wine:
+        markers += "V"
+
+    return markers
+
+
+def format_brazda_text(text, line):
+    if line == 0:
+        return "╔" + "═" * (CELL_WIDTH - 2) + "╗"
+    if line == CELL_HEIGHT - 1:
+        return "╚" + "═" * (CELL_WIDTH - 2) + "╝"
+    return "║" + text.center(CELL_WIDTH - 2) + "║"
+
+
+def print_board(board, highlighted_indexes=None):
+    if highlighted_indexes is None:
+        highlighted_indexes = set()
+
     console.print()
 
     console.print("    ", end="")
@@ -105,34 +138,43 @@ def print_board(board):
                 text = ""
                 text_color = "black"
 
-                if line == 1 and dark:
+                if dark:
                     index = row_column_to_index(row, column)
                     piece = board[index]
 
-                    if piece is not None and piece.is_marko() and piece.color == "white":
-                        text = f"♚{index:02}"
-                        text_color = "bright_white"
-                    elif piece is not None and piece.is_marko() and piece.color == "black":
-                        text = f"♚{index:02}"
-                        text_color = "black"
-                    elif piece is not None and piece.color == "white" and piece.kind == "pawn":
-                        text = f"●{index:02}"
-                        text_color = "bright_white"
-                    elif piece is not None and piece.color == "black" and piece.kind == "pawn":
-                        text = f"●{index:02}"
-                        text_color = "black"
-                    elif piece is not None and piece.color == "white" and piece.kind == "king":
-                        text = f"♛{index:02}"
-                        text_color = "bright_white"
-                    elif piece is not None and piece.color == "black" and piece.kind == "king":
-                        text = f"♛{index:02}"
-                        text_color = "black"
-                    else:
-                        text = f"{index:02}"
-                        if (row, column) in BRAZDE:
+                    if line == 0 and piece is not None:
+                        text = get_piece_markers(piece)
+                        text_color = "bright_yellow"
+
+                    if line == 1:
+                        if piece is not None and piece.is_marko() and piece.color == "white":
+                            text = f"♚{index:02}"
+                            text_color = "bright_white"
+                        elif piece is not None and piece.is_marko() and piece.color == "black":
+                            text = f"♚{index:02}"
+                            text_color = "black"
+                        elif piece is not None and piece.color == "white" and piece.kind == "pawn":
+                            text = f"●{index:02}"
+                            text_color = "bright_white"
+                        elif piece is not None and piece.color == "black" and piece.kind == "pawn":
+                            text = f"●{index:02}"
+                            text_color = "black"
+                        elif piece is not None and piece.color == "white" and piece.kind == "king":
+                            text = f"♛{index:02}"
+                            text_color = "bright_white"
+                        elif piece is not None and piece.color == "black" and piece.kind == "king":
+                            text = f"♛{index:02}"
+                            text_color = "black"
+                        elif index in highlighted_indexes:
+                            text = f"●{index:02}"
                             text_color = "bright_red"
                         else:
+                            text = f"{index:02}"
                             text_color = "cyan"
+
+                    if (row, column) in BRAZDE:
+                        text = format_brazda_text(text, line)
+                        text_color = "bright_blue"
 
                 print_square(text, background, text_color)
 
