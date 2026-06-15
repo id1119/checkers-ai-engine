@@ -46,6 +46,18 @@ def take_rear_relic(relic_road):
     return relic_road.pop()
 
 
+def format_relic_road(relic_road):
+    if not relic_road:
+        return "Carev drum: []"
+
+    relics = [f"{index}:{selected_relic}" for index, selected_relic in enumerate(relic_road)]
+    return "Carev drum front -> rear: [" + " | ".join(relics) + "]"
+
+
+def print_relic_road(relic_road):
+    print(format_relic_road(relic_road))
+
+
 def find_nearest_enemy_piece(game_board, source_index):
     source_piece = game_board[source_index]
     source_row, source_column = board.index_to_row_column(source_index)
