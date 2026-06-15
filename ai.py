@@ -8,7 +8,7 @@ import zobrist
 
 
 RELIC_SIDES = ("front", "rear")
-DEFAULT_MOVE_TIME_LIMIT = 3
+DEFAULT_MOVE_TIME_LIMIT = 2.8
 TRANSPOSITION_TABLE = {}
 
 
