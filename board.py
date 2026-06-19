@@ -166,7 +166,7 @@ def print_board(board, highlighted_indexes=None):
                             text = f"♛{index:02}"
                             text_color = "black"
                         elif index in highlighted_indexes:
-                            text = f"●{index:02}"
+                            text = f"•{index:02}"
                             text_color = "bright_red"
                         else:
                             text = f"{index:02}"
@@ -174,7 +174,8 @@ def print_board(board, highlighted_indexes=None):
 
                     if (row, column) in BRAZDE:
                         text = format_brazda_text(text, line)
-                        text_color = "bright_blue"
+                        if line != 1:
+                            text_color = "bright_blue"
 
                 print_square(text, background, text_color)
 

@@ -83,6 +83,7 @@ if __name__ == '__main__':
             if selected_move == "undo":
                 undo_steps = 2 if game_mode == "human_vs_ai" else 1
                 undone_steps = 0
+                undo_from_history_node = current_history_node
 
                 while undo_stack and undone_steps < undo_steps:
                     current_game = undo_stack.pop()
@@ -96,6 +97,12 @@ if __name__ == '__main__':
                     print("Potez je ponisten.")
                 else:
                     print("Potezi su ponisteni.")
+
+                if undone_steps > 0:
+                    undo_from_history_node.add_child(
+                        current_game.copy(),
+                        f"UNDO x{undone_steps}",
+                    )
 
                 skip_relic_add = True
                 continue
